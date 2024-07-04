@@ -2,7 +2,7 @@ import React from "react";
 
 const Topbar = () => {
 	return (
-		<div className="text-white p-4 flex   justify-between w-full items-center ">
+		<div className="text-white  flex   justify-between w-full items-center ">
 			<div className="flex gap-2   w-[10%]">
 				<div>
 					<img

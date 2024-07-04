@@ -50,9 +50,7 @@ const Sidebar = () => {
                 </div>
             </div>
             {/* Right bar */}
-            
-                <Content />
-            
+            <Content />
         </div>
     )
 }
