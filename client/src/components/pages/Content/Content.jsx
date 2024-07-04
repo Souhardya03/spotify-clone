@@ -11,40 +11,40 @@ const Content = () => {
                 <div className='grid grid-cols-4 gap-3 mt-8'>
                     <div className=' bg-[#303030] w-full  h-[10vh] flex items-center rounded-md '>
                         <div
-                            className='w-[30%] rounded-l-md h-full '
+                            className='w-[40%] rounded-l-md h-full '
 
                         >
                             <img src="./assets/fi-ss-heart.svg" alt="" className=' object-cover rounded-l-md w-full h-full' />
                         </div>
-                        <div className='text-white text-sm h-full flex items-center justify-center w-1/2'>
+                        <div className='text-white text-sm h-full flex items-center justify-center w-full'>
                             <div className='pt-1'>Liked Songs</div>
                         </div>
                     </div>
                     <div className=' bg-[#303030] w-full h-[10vh] flex items-center rounded-md '>
                         <div
-                            className='w-[30%] rounded-l-md h-full '
+                            className='w-[40%] rounded-l-md h-full '
 
                         >
                             <img src="./assets/neffex_playlist.svg" alt="" className=' object-cover rounded-l-md w-full h-full' />
                         </div>
-                        <div className='text-white text-sm h-full flex items-center justify-center w-1/2'>
+                        <div className='text-white text-sm h-full flex items-center justify-center w-full'>
                             <div className='pt-1'>Neffex Playlist</div>
                         </div>
                     </div>
                     <div className=' bg-[#303030] w-full  h-[10vh] flex items-center rounded-md '>
                         <div
-                            className='w-[35%] rounded-l-md h-full '
+                            className='w-[40%] rounded-l-md h-full '
 
                         >
                             <img src="./assets/kda.svg" alt="" className=' object-cover rounded-l-md w-full h-full' />
                         </div>
-                        <div className='text-white text-sm h-full flex items-center pl-6 w-full'>
+                        <div className='text-white text-sm h-full flex items-center justify-center w-full'>
                             <div className='pt-1'>K / DA</div>
                         </div>
                     </div>
                     <div className=' bg-[#303030] w-full  h-[10vh] flex items-center rounded-md '>
                         <div
-                            className='w-[35%] rounded-l-md h-full '
+                            className='w-[40%] rounded-l-md h-full '
 
                         >
                             <img src="./assets/dance.svg" alt="" className=' object-cover rounded-l-md w-full h-full' />
