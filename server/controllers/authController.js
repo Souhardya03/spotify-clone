@@ -15,7 +15,7 @@ const registerController = async (req, res) => {
 			lastName,
 			email,
 			username,
-			password:hashedPassword,
+			password: hashedPassword,
 		});
 		const token = jwt.sign({ _id: user._id }, process.env.JWT_SECRET, {
 			expiresIn: "10d",
@@ -31,19 +31,22 @@ const registerController = async (req, res) => {
 const loginController = async (req, res) => {
 	try {
 		const { email, password } = req.body;
-		const user = await UserModel.findOne({ email });
-		if (!user) return res.status(400).json({ err: "User Not Found" });
+		const user = await UserModel.findOne({
+			$or: [{ email }, { username: email }],
+		});
+		if (!user )
+			return res.status(400).json({ err: "User Not Found" });
 		const isMatch = await authHelper.comparePassword(password, user.password);
-		if (!isMatch) return res.status(400).json({ err: "Invalid Username or Password" });
+		if (!isMatch)
+			return res.status(400).json({ err: "Invalid Username or Password" });
 		const token = jwt.sign({ _id: user._id }, process.env.JWT_SECRET, {
 			expiresIn: "35d",
 		});
-		return res.status(200).json({success:"Login Successfull", user, token });
+		return res.status(200).json({ success: "Login Successfull", user, token });
 	} catch (error) {
 		console.log(error);
 		console.log("Error from login controller");
 	}
 };
 
-
-module.exports = { registerController,loginController };
+module.exports = { registerController, loginController };
