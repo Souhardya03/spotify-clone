@@ -4,9 +4,9 @@ import Content from '../../pages/Content/Content';
 const Sidebar = () => {
     const [control, setcontrol] = useState(true);
     return (
-        <div className='flex p-3 w-full'>
+        <div className='flex lg:p-3 max-h-screen  pb-0 w-full'>
             {/* Sidebar */}
-            <div className={`duration-150 ${control ? "w-[30%]" : "w-[40%]"}`}>
+            <div className={`duration-150 lg:block hidden ${control ? "w-[30%]" : "w-[40%]"}`}>
                 <div className={`h-[28vh] p-5 text-white  rounded-md mb-3 bg-[#121212]`}>
                     <div className='flex items-center  gap-1'>
                         <img src="./assets/iconmonstr-spotify-1-240.png" className='w-8' alt="Spotify logo" />

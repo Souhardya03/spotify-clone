@@ -25,9 +25,9 @@ const SignUp = () => {
 
 	return (
 		<div
-			className="text-white flex justify-center h-full p-6"
+			className="text-white flex justify-center h-full p-2 lg:p-6"
 			style={{ background: 'url("./assets/bg-colour.svg")' }}>
-			<div className="flex w-1/2 p-6 bg-[#121212] rounded-md h-full justify-center">
+			<div className="flex lg:w-1/2 p-6 bg-[#121212] rounded-md h-full justify-center">
 				<div className="flex w-full items-center gap-6 flex-col">
 					<div className="flex justify-center">
 						<img
@@ -36,11 +36,11 @@ const SignUp = () => {
 							className="w-10"
 						/>
 					</div>
-					<div className="text-3xl font-semibold">
+					<div className="lg:text-3xl text-xl font-semibold">
 						Sign up to start listening
 					</div>
-					<div className="flex flex-col items-center  space-y-12 p-8 w-full h-full ">
-						<div className=" w-[60%]  space-y-8">
+					<div className="flex flex-col items-center  space-y-12 p-2 lg:p-8 w-full h-full ">
+						<div className=" lg:w-[60%] space-y-8">
 							<div className="space-y-4">
 								{/* firstname and lastname */}
 								<div className="flex gap-2">

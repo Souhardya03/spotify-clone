@@ -1,8 +1,9 @@
 import React, { useEffect, useState } from "react";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { useSpotify } from "../../context/Context";
 const Login = () => {
 	const {loginUser} = useSpotify();
+	const navigate = useNavigate();
 	const [showpassword, setshowpassword] = useState(false);
 	const [logindata, setlogindata] = useState({
 		email: "",
@@ -14,6 +15,7 @@ const Login = () => {
 	const handlesubmit = (e) => {
 		e.preventDefault();
 		loginUser(logindata);
+		navigate("/")
 	};
 	useEffect(() => {
 		document.title = "Spotify | Login";
@@ -21,9 +23,9 @@ const Login = () => {
 
 	return (
 		<div
-			className="text-white flex justify-center h-screen p-6"
+			className="text-white flex justify-center h-screen p-2 lg:p-6"
 			style={{ background: 'url("./assets/bg-colour.svg")' }}>
-			<div className="flex w-1/2 p-6 bg-[#121212] rounded-md h-full justify-center">
+			<div className="flex lg:w-1/2 w-full p-6 bg-[#121212] rounded-md h-full justify-center">
 				<div className="flex w-full items-center gap-6 flex-col">
 					<div className="flex justify-center">
 						<img
@@ -33,8 +35,8 @@ const Login = () => {
 						/>
 					</div>
 					<div className="text-3xl font-semibold">Log in to Spotify</div>
-					<div className="flex flex-col items-center  space-y-14 p-8 w-full h-full ">
-						<div className=" w-[55%]  space-y-8">
+					<div className="flex flex-col items-center  space-y-14 p-4 lg:p-8 w-full h-full ">
+						<div className=" lg:w-[55%] w-full space-y-8">
 							<div className="space-y-6">
 								<div>
 									<label
@@ -91,10 +93,10 @@ const Login = () => {
 						</div>
 						<div className="w-full border border-[#252524]"></div>
 						<div className="flex gap-1">
-							<div className="text-[#a59e95]">Don't have an account?</div>
+							<div className="text-[#a59e95] lg:text-sm text-sm">Don't have an account?</div>
 							<Link
 								to="/signup"
-								className="underline hover:text-green-500 duration-100 cursor-pointer">
+								className="underline lg:text-sm text-sm hover:text-green-500 duration-100 cursor-pointer">
 								Sign up for Spotify.
 							</Link>
 						</div>
