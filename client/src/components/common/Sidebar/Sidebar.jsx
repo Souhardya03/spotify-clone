@@ -1,5 +1,6 @@
 import React, { useState } from 'react'
 import Content from '../../pages/Content/Content';
+import { Link, Outlet } from 'react-router-dom';
 
 const Sidebar = () => {
     const [control, setcontrol] = useState(true);
@@ -15,11 +16,11 @@ const Sidebar = () => {
                     <div className='mt-5 space-y-4 w-full text-[16px]'>
                         <div className='flex items-center gap-4  w-[28%] '>
                             <img src="./assets/home-icon.svg" alt="home-icon" className='w-8' />
-                            <div className='pt-2 font-semibold'>Home</div>
+                            <Link to="/" className='pt-2 font-semibold'>Home</Link>
                         </div>
                         <div className='flex items-center gap-4  w-[28%]'>
                             <img src="./assets/search-icon.png" alt="search-icon" className='w-8' />
-                            <div className='pt-2 font-semibold'>Search</div>
+                            <Link to="/search" className='pt-2 font-semibold'>Search</Link>
                         </div>
                     </div>
                 </div>
@@ -50,7 +51,8 @@ const Sidebar = () => {
                 </div>
             </div>
             {/* Right bar */}
-            <Content />
+            <Outlet/>
+            
         </div>
     )
 }

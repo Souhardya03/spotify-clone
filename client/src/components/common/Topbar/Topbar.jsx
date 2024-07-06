@@ -54,7 +54,7 @@ const Topbar = () => {
 			</div>
 			<div
 				className={`lg:w-[14%] ${
-					show ? " opacity-100" : " opacity-0"
+					show ? " opacity-100 translate-y-0 " : " opacity-0 -translate-y-4 pointer-events-none"
 				} right-10 top-20  duration-200 text-sm bg-[#282828] absolute rounded-md `}>
 				<div className="flex flex-col p-2">
 					<div className="hover:bg-[#3d3b3b] cursor-pointer rounded-sm p-3">Profile</div>
