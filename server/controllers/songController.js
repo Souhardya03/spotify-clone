@@ -10,6 +10,7 @@ const createSong = async (req, res) => {
 	} catch (error) {
 		console.log(error);
 		console.log("Error from create song");
+		return res.status(400).json({err:"Song not uploaded"})
 	}
 };
 

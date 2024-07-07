@@ -15,6 +15,7 @@ const createPlaylist = async (req, res) => {
 	} catch (error) {
 		console.log(error);
 		console.log("Error from create playlist");
+		res.status(400).json({ error: error.message });
 	}
 };
 

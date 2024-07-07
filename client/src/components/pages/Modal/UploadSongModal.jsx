@@ -1,7 +1,45 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
+import { useSpotify } from "../../context/Context";
 
 const UploadSongModal = (props) => {
 	const [showhover, setshowhover] = useState(false);
+	const { uploadSongWidget, uploadSong } = useSpotify();
+	const [displayname, setDisplayname] = useState();
+	const [trackUrl, setTrackUrl] = useState();
+	const [songData, setsongData] = useState({
+		name: "",
+		thumbnail: "",
+		track: "",
+	});
+
+	useEffect(() => {
+		if (trackUrl) {
+			setsongData((prevData) => ({
+				...prevData,
+				track: trackUrl,
+			}));
+		}
+	}, [trackUrl]);
+
+	const CloudinaryUpload = async () => {
+		try {
+			const result = await uploadSongWidget();
+			if (result) {
+				setDisplayname(result.display_name);
+				setTrackUrl(result.secure_url);
+			}
+		} catch (error) {
+			console.error("Upload failed", error);
+		}
+	};
+
+	const handleChange = (e) => {
+		setsongData({ ...songData, [e.target.name]: e.target.value });
+	};
+
+	const handleSubmit = () => {
+		uploadSong(songData);
+	};
 
 	return (
 		<div
@@ -22,13 +60,15 @@ const UploadSongModal = (props) => {
 						<div className="text-xl">Upload your song on Spotify</div>
 					</div>
 					<label
-						for="name"
+						htmlFor="name"
 						className="text-white pl-2">
 						Name of the song
 					</label>
 					<div className="border rounded-full flex items-center border-white w-full">
 						<input
 							id="name"
+							value={songData.name}
+							onChange={handleChange}
 							name="name"
 							type="text"
 							className="bg-transparent pl-4 p-3 text-white px-3 text-lg placeholder:text-sm w-full outline-none focus:outline-none"
@@ -38,7 +78,7 @@ const UploadSongModal = (props) => {
 				</div>
 				<div className="w-full space-y-1">
 					<label
-						for="thumbnail"
+						htmlFor="thumbnail"
 						className="text-white pl-2">
 						Thumbnail of the song
 					</label>
@@ -46,6 +86,8 @@ const UploadSongModal = (props) => {
 						<input
 							id="thumbnail"
 							name="thumbnail"
+							value={songData.thumbnail}
+							onChange={handleChange}
 							type="text"
 							className="bg-transparent pl-4 p-3 text-white px-3 text-lg placeholder:text-sm w-full outline-none focus:outline-none"
 							placeholder="Thumbnail of the song"
@@ -54,22 +96,17 @@ const UploadSongModal = (props) => {
 				</div>
 				<div className="w-full space-y-1">
 					<label
-						for="track"
-						className="text-white pl-2">
+						htmlFor="track"
+						className="text-white pl-2"
+						onClick={CloudinaryUpload}>
 						Track of the song
 						<div
-							className="relative border mt-1 rounded-full flex justify-end  items-center border-white w-full"
+							className="relative border p-3 mt-1 rounded-full flex justify-end  items-center border-white w-full"
 							onMouseEnter={() => setshowhover(true)}
 							onMouseLeave={() => setshowhover(false)}>
-							<div className="text-gray-500 ml-4 w-full">
-								Click here to upload
+							<div className="text-gray-500 ml-2 w-full">
+								{displayname ? displayname : "Click here to upload"}
 							</div>
-							<input
-								id="track"
-								type="file"
-								className="bg-transparent pl-4 p-2  text-white px-3 text-lg placeholder:text-sm opacity-0 w-[0%] outline-none focus:outline-none"
-								placeholder="Click here to upload the track"
-							/>
 							<img
 								src="./assets/upload-icon.png"
 								className="w-8 pr-3 mr-2"
@@ -86,7 +123,9 @@ const UploadSongModal = (props) => {
 						</div>
 					</label>
 				</div>
-				<div className=" p-3 px-10 rounded-full text-white bg-gray-700 border-white">
+				<div
+					className=" p-3 px-10 rounded-full cursor-pointer text-white bg-gray-700 border-white"
+					onClick={handleSubmit}>
 					Upload
 				</div>
 			</div>

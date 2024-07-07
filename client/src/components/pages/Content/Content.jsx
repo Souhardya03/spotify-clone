@@ -1,8 +1,12 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import "./ContentStyle.css";
 import Topbar from '../../common/Topbar/Topbar';
 
 const Content = () => {
+    useEffect(() => {
+      document.title = "Spotify | Home"
+    }, [])
+    
     return (
         <div className='contentbackground p-2 lg:p-4 h-[90vh] rounded-md lg:ml-3 w-full'>
             <Topbar />

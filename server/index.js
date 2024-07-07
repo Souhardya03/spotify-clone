@@ -8,7 +8,7 @@ const connectdB = require("./utils/dB");
 const authRoute = require("./router/authRouter");
 const songRoute = require("./router/songRouter");
 const playlistRoute = require("./router/playlistRouter");
-const uploadRoute = require("./router/uploadRouter");
+
 //CORS Policy
 const corsoption = {
     origin : "*",
@@ -26,7 +26,7 @@ app.get("/",(req,res)=>{
 app.use("/auth",authRoute);
 app.use("/song",songRoute);
 app.use("/playlist",playlistRoute);
-app.use("/upload",uploadRoute);
+
 
 connectdB().then(()=>{
     app.listen(port , ()=>{

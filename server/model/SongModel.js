@@ -11,7 +11,7 @@ const Song = mongoose.Schema({
 	},
 	track: {
 		type: String,
-		required: true,
+		
 	},
 	artist:{
         type: mongoose.Schema.ObjectId,

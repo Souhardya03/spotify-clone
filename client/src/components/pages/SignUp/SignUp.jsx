@@ -1,9 +1,12 @@
 import React, { useEffect, useState } from "react";
-import { Link } from "react-router-dom";
+import { Link, Navigate } from "react-router-dom";
 import { useSpotify } from "../../context/Context";
 
 const SignUp = () => {
-	const {registerUser} = useSpotify();
+	const { registerUser, isLoggedIn } = useSpotify();
+	useEffect(() => {
+		document.title = "Spotify | Register";
+	}, []);
 	const [showpassword, setshowpassword] = useState(false);
 	const [signupdata, setsignupdata] = useState({
 		firstName: "",
@@ -12,6 +15,7 @@ const SignUp = () => {
 		username: "",
 		password: "",
 	});
+	if (isLoggedIn) return <Navigate to="/" />;
 	const handlechange = (e) => {
 		setsignupdata({ ...signupdata, [e.target.name]: e.target.value });
 	};
@@ -19,9 +23,6 @@ const SignUp = () => {
 		e.preventDefault();
 		registerUser(signupdata);
 	};
-	useEffect(() => {
-		document.title = "Spotify | Register";
-	}, []);
 
 	return (
 		<div
@@ -145,7 +146,9 @@ const SignUp = () => {
 									</div>
 								</div>
 							</div>
-							<div className="bg-green-600 hover:scale-105 duration-150 cursor-pointer p-3 text-center rounded-full font-semibold text-black" onClick={handlesubmit}>
+							<div
+								className="bg-green-600 hover:scale-105 duration-150 cursor-pointer p-3 text-center rounded-full font-semibold text-black"
+								onClick={handlesubmit}>
 								<div>Sign Up</div>
 							</div>
 						</div>

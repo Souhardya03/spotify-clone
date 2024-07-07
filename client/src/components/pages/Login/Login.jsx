@@ -1,14 +1,20 @@
 import React, { useEffect, useState } from "react";
-import { Link, useNavigate } from "react-router-dom";
+import { Link, Navigate, useNavigate } from "react-router-dom";
 import { useSpotify } from "../../context/Context";
 const Login = () => {
-	const {loginUser} = useSpotify();
+	useEffect(() => {
+		document.title = "Spotify | Login";
+	}, []);
+	const {loginUser,isLoggedIn} = useSpotify();
 	const navigate = useNavigate();
 	const [showpassword, setshowpassword] = useState(false);
 	const [logindata, setlogindata] = useState({
 		email: "",
 		password: "",
 	});
+	if(isLoggedIn){
+		return <Navigate to="/"/>
+	}
 	const handlechange = (e) => {
 		setlogindata({ ...logindata, [e.target.name]: e.target.value });
 	};
@@ -17,9 +23,6 @@ const Login = () => {
 		loginUser(logindata);
 		navigate("/")
 	};
-	useEffect(() => {
-		document.title = "Spotify | Login";
-	}, []);
 
 	return (
 		<div
