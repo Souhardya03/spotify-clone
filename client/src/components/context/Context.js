@@ -52,6 +52,7 @@ export const SpotifyProvider = ({ children }) => {
 			console.log(error);
 			console.log("Error from login user context");
 		}
+		
 	};
 	//Logout user
 	const logoutUser = () => {
