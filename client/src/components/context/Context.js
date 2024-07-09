@@ -1,4 +1,10 @@
-import { createContext, useContext, useLayoutEffect, useRef, useState } from "react";
+import {
+	createContext,
+	useContext,
+	useLayoutEffect,
+	useRef,
+	useState,
+} from "react";
 import { openUploadWidget } from "../../utils/Cloudinary";
 import { Howl } from "howler";
 
@@ -145,7 +151,7 @@ export const SpotifyProvider = ({ children }) => {
 		});
 		setSoundPlayed(sound);
 		sound.play();
-		setisPlaying(false)
+		setisPlaying(false);
 	};
 	// toggle play pause
 	const [isPlaying, setisPlaying] = useState(false);
@@ -158,24 +164,33 @@ export const SpotifyProvider = ({ children }) => {
 			setisPlaying(true);
 		}
 	};
-	
 
 	// Current Song
 	const [currentSong, setCurrentSong] = useState(null);
 
-
 	const firstUpdate = useRef(true);
-	useLayoutEffect(()=>{
+	useLayoutEffect(() => {
 		if (firstUpdate.current) {
 			firstUpdate.current = false;
 			return;
-			}
-		if(!currentSong)return;
+		}
+		if (!currentSong) return;
 		playSound(currentSong.track);
-	// eslint-disable-next-line react-hooks/exhaustive-deps
-	},[currentSong && currentSong.track])
+		// eslint-disable-next-line react-hooks/exhaustive-deps
+	}, [currentSong && currentSong.track]);
 
-
+	//get Playlist
+	const [playlist, setPlaylist] = useState([]);
+	const getyourPlaylist = async () => {
+		const response = await fetch(`${apiUrl}/playlist/get-ownerplaylist`, {
+			method: "GET",
+			headers: {
+				Authorization: authorizationToken,
+			},
+		});
+		const data = await response.json();
+		setPlaylist(data.playlist);
+	};
 
 	return (
 		<SpotifyContext.Provider
@@ -194,7 +209,9 @@ export const SpotifyProvider = ({ children }) => {
 				togglePlayPause,
 				setCurrentSong,
 				currentSong,
-				isPlaying
+				isPlaying,
+				playlist,
+				getyourPlaylist
 			}}>
 			{children}
 		</SpotifyContext.Provider>

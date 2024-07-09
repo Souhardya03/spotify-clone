@@ -18,7 +18,7 @@ router.get(
 	playlistCrontroller.getAllPlaylists
 );
 router.get(
-	"/get-ownerplaylist/:OwnerId",
+	"/get-ownerplaylist",
 	authMiddleware.requireSignIn,
 	playlistCrontroller.getPlaylistByOwnerId
 );

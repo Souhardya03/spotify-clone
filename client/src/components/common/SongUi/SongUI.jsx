@@ -1,8 +1,14 @@
-import React from "react";
+import React, { useState } from "react";
 import { useSpotify } from "../../context/Context";
+import AddToPlaylistModal from "../../pages/Modal/AddToPlaylistModal";
 
 const SongUI = () => {
-	const { currentSong, togglePlayPause, isPlaying } = useSpotify();
+	const { currentSong, togglePlayPause, isPlaying,getyourPlaylist } = useSpotify();
+	const [show, setShow] = useState(false);
+	const handleClick = ()=>{
+		setShow(true);
+		getyourPlaylist();
+	}
 	return (
 		<div className=" text-white h-[9vh] fixed lg:bottom-0 bottom-16 w-full p-1 flex justify-between items-center  bg-[#202020]">
 			<div className=" flex lg:pl-4 items-center gap-2 justify-start lg:w-[25%] h-full">
@@ -46,7 +52,11 @@ const SongUI = () => {
 					onClick={togglePlayPause}
 					disabled={currentSong ? false : true}>
 					<img
-						src={currentSong && !isPlaying ? "./assets/pause.svg" : "./assets/play.png"}
+						src={
+							currentSong && !isPlaying
+								? "./assets/pause.svg"
+								: "./assets/play.png"
+						}
 						className="w-10 cursor-pointer"
 						alt=""
 					/>
@@ -63,17 +73,20 @@ const SongUI = () => {
 				/>
 			</div>
 			<div className=" w-[25%] hidden lg:flex gap-6 justify-end pr-4  h-full">
-				<img
-					src="./assets/add_to_playlist.svg"
-					className="w-6"
-					alt=""
-				/>
+				<button onClick={handleClick}>
+					<img
+						src="./assets/add_to_playlist.svg"
+						className="w-6"
+						alt=""
+					/>
+				</button>
 				<img
 					src="./assets/Like.svg"
 					className="w-6"
 					alt=""
 				/>
 			</div>
+			<AddToPlaylistModal show={show} setShow={setShow} />
 		</div>
 	);
 };

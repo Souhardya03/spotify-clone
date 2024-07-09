@@ -45,14 +45,15 @@ const getPlaylist = async (req, res) => {
 //get playlist by owner id
 const getPlaylistByOwnerId = async (req, res) => {
 	try {
-		const { OwnerId } = req.params;
-		const songs = await SongModel.find({ owner: OwnerId });
-		res.status(200).json({ songs });
+		const OwnerId = req.user._id;
+		const playlist = await PlaylistModel.find({ owner: OwnerId }).populate({ path: "owner",select:"-password" });
+		res.status(200).json({ playlist });
 	} catch (error) {
 		console.log(error);
-		console.log("Error from get song by artist id");
+		console.log("Error from get playlist by owner id");
 	}
 };
+
 
 //add song to playlist
 const addSongToPlaylist = async (req, res) => {
