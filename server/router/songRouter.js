@@ -13,7 +13,7 @@ router.get(
 	songCrontroller.getAllSongs
 );
 router.get(
-	"/get-song/:artistId",
+	"/get-mysong",
 	authMiddleware.requireSignIn,
 	songCrontroller.getSongByArtistId
 );

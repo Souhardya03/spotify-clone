@@ -1,5 +1,7 @@
-import { createContext, useContext, useState } from "react";
+import { createContext, useContext, useLayoutEffect, useRef, useState } from "react";
 import { openUploadWidget } from "../../utils/Cloudinary";
+import { Howl } from "howler";
+
 export const SpotifyContext = createContext();
 export const SpotifyProvider = ({ children }) => {
 	const [token, setToken] = useState(localStorage.getItem("token"));
@@ -128,6 +130,53 @@ export const SpotifyProvider = ({ children }) => {
 			console.log("Error from create playlist of context");
 		}
 	};
+
+	//play and pause sonng
+	const [soundPlayed, setSoundPlayed] = useState(null);
+	const playSound = (songsrc) => {
+		if (soundPlayed) {
+			soundPlayed.stop();
+			setSoundPlayed(null);
+		}
+		const sound = new Howl({
+			src: [songsrc],
+			html5: true,
+			onend: () => setSoundPlayed(null), // Clear the state when the sound ends
+		});
+		setSoundPlayed(sound);
+		sound.play();
+		setisPlaying(false)
+	};
+	// toggle play pause
+	const [isPlaying, setisPlaying] = useState(false);
+	const togglePlayPause = () => {
+		if (isPlaying) {
+			soundPlayed.play();
+			setisPlaying(false);
+		} else {
+			soundPlayed.pause();
+			setisPlaying(true);
+		}
+	};
+	
+
+	// Current Song
+	const [currentSong, setCurrentSong] = useState(null);
+
+
+	const firstUpdate = useRef(true);
+	useLayoutEffect(()=>{
+		if (firstUpdate.current) {
+			firstUpdate.current = false;
+			return;
+			}
+		if(!currentSong)return;
+		playSound(currentSong.track);
+	// eslint-disable-next-line react-hooks/exhaustive-deps
+	},[currentSong && currentSong.track])
+
+
+
 	return (
 		<SpotifyContext.Provider
 			value={{
@@ -139,6 +188,13 @@ export const SpotifyProvider = ({ children }) => {
 				uploadSongWidget,
 				uploadSong,
 				createPlaylist,
+				apiUrl,
+				authorizationToken,
+				playSound,
+				togglePlayPause,
+				setCurrentSong,
+				currentSong,
+				isPlaying
 			}}>
 			{children}
 		</SpotifyContext.Provider>

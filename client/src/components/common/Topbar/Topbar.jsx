@@ -5,7 +5,7 @@ const Topbar = () => {
 	const { isLoggedIn, user, logoutUser } = useSpotify();
 	const [show, setshow] = useState(false);
 	return (
-		<div className="text-white  flex pt-2 lg:pt-0  justify-between w-full items-center ">
+		<div className="text-white flex pt-2 lg:pt-0  justify-between w-full items-center ">
 			<div className="flex gap-2   lg:w-[10%]">
 				<div>
 					<img

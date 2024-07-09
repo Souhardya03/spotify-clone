@@ -5,6 +5,7 @@ import Login from "./components/pages/Login/Login";
 import SignUp from "./components/pages/SignUp/SignUp";
 import Search from "./components/pages/Search/Search";
 import Content from "./components/pages/Content/Content";
+import MyLibrary from "./components/pages/MyLibrary/MyLibrary";
 function App() {
 	return (
 		<>
@@ -17,6 +18,10 @@ function App() {
 					<Route
 						path="/search"
 						element={<Search />}
+					/>
+					<Route
+						path="/my-songs"
+						element={<MyLibrary />}
 					/>
 				</Route>
 				<Route

@@ -10,7 +10,7 @@ const createSong = async (req, res) => {
 	} catch (error) {
 		console.log(error);
 		console.log("Error from create song");
-		return res.status(400).json({err:"Song not uploaded"})
+		return res.status(400).json({ err: "Song not uploaded" });
 	}
 };
 
@@ -28,14 +28,15 @@ const getAllSongs = async (req, res) => {
 //get song by artist id
 const getSongByArtistId = async (req, res) => {
 	try {
-		const { artistId } = req.params;
-		const songs = await SongModel.find({ artist: artistId });
+		const songs = await SongModel.find({ artist: req.user._id })
+			.populate({ path: 'artist', select: '-password' });
 		res.status(200).json({ songs });
 	} catch (error) {
-		console.log(error);
+		console.error(error);
 		console.log("Error from get song by artist id");
 	}
 };
+
 
 //get song by name
 const getSongByName = async (req, res) => {
@@ -49,4 +50,4 @@ const getSongByName = async (req, res) => {
 	}
 };
 
-module.exports = { createSong, getAllSongs, getSongByArtistId,getSongByName };
+module.exports = { createSong, getAllSongs, getSongByArtistId, getSongByName };

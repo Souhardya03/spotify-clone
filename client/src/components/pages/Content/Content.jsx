@@ -1,6 +1,7 @@
 import React, { useEffect } from 'react';
 import "./ContentStyle.css";
 import Topbar from '../../common/Topbar/Topbar';
+import SongUI from '../../common/SongUi/SongUI';
 
 const Content = () => {
     useEffect(() => {
