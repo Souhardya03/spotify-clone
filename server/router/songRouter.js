@@ -9,7 +9,6 @@ router.post(
 );
 router.get(
 	"/get-songs",
-	authMiddleware.requireSignIn,
 	songCrontroller.getAllSongs
 );
 router.get(

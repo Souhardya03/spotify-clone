@@ -8,19 +8,43 @@ import Content from "./components/pages/Content/Content";
 import MyLibrary from "./components/pages/MyLibrary/MyLibrary";
 import PlaylistPage from "./components/pages/Playlist/PlaylistPage";
 
+
 function App() {
-    return (
-        <Routes>
-            <Route path="/" element={<Home />}>
-                <Route index element={<Content />} />
-                <Route path="search" element={<Search />} />
-                <Route path="my-songs" element={<MyLibrary />} />
-                <Route path="playlist/:id" element={<PlaylistPage />} />
-            </Route>
-            <Route path="/login" element={<Login />} />
-            <Route path="/signup" element={<SignUp />} />
-        </Routes>
-    );
+	
+
+	return (
+		<Routes>
+			<Route
+				path="/"
+				element={<Home />}
+			>
+				<Route
+					index
+					element={<Content />}
+				/>
+				<Route
+					path="search"
+					element={<Search />}
+				/>
+				<Route
+					path="my-songs"
+					element={<MyLibrary />}
+				/>
+				<Route
+					path="playlist/:id"
+					element={<PlaylistPage />}
+				/>
+			</Route>
+			<Route
+				path="/login"
+				element={<Login />}
+			/>
+			<Route
+				path="/signup"
+				element={<SignUp />}
+			/>
+		</Routes>
+	);
 }
 
 export default App;

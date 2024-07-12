@@ -2,7 +2,7 @@ import React from "react";
 import { NavLink } from "react-router-dom";
 const Bottombar = () => {
 	return (
-		<div className="text-white z-[999] fixed w-full bottom-0 bg-black lg:hidden flex justify-between p-4 pb-0 items-center ">
+		<div className="text-white z-[999]  w-full  bg-black lg:hidden flex justify-between p-4 pb-0 items-center ">
 			<NavLink
 				to="/"
 				className="flex gap-1 flex-col items-center">

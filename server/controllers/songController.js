@@ -17,7 +17,7 @@ const createSong = async (req, res) => {
 // Get all songs
 const getAllSongs = async (req, res) => {
 	try {
-		const songs = await SongModel.find();
+		const songs = await SongModel.find().populate({path:"artist"});
 		res.status(200).json({ songs });
 	} catch (error) {
 		console.log(error);

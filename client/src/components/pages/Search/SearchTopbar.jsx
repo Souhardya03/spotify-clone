@@ -1,22 +1,23 @@
 import React, { useState } from "react";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { useSpotify } from "../../context/Context";
 
 const SearchTopbar = (props) => {
 	const { isLoggedIn, user, logoutUser } = useSpotify();
 	const [show, setShow] = useState(false);
 
+	const navigate = useNavigate();
 	return (
 		<div className="text-white flex pt-2 lg:pt-0 justify-between w-full items-center">
 			<div className="flex gap-2 items-center lg:w-[35%]">
-				<div>
+				<div onClick={()=>navigate(-1)} className=" cursor-pointer">
 					<img
 						src="./assets/fi-rr-angle-small-left.svg"
 						alt="Back"
 						className="bg-[#151415] w-10 rounded-full p-1"
 					/>
 				</div>
-				<div>
+				<div onClick={()=>navigate(1)} className="cursor-pointer">
 					<img
 						src="./assets/fi-rr-angle-small-right.svg"
 						alt="Forward"

@@ -9,17 +9,20 @@ import "swiper/css/pagination";
 import PlaylistCard from "../../common/PlaylistCard/PlaylistCard";
 import { Pagination } from "swiper/modules";
 import { useSpotify } from "../../context/Context";
+import MySongCard from "../../common/MySongCard/MySongCard";
 
 const Content = () => {
-	const { getAllPlaylist, allPlaylist } = useSpotify();
+	const { getAllPlaylist, allPlaylist, user, getAllSongs, allSongs, playSound } =
+		useSpotify();
 	useEffect(() => {
 		document.title = "Spotify | Home";
 		getAllPlaylist();
+		getAllSongs();
 		// eslint-disable-next-line react-hooks/exhaustive-deps
 	}, []);
 
 	return (
-		<div className="contentbackground  p-2 lg:p-4 max-h-svh overflow-auto  rounded-md lg:ml-3 w-full">
+		<div className="contentbackground lg:h-[90vh] h-[82vh]  p-2 lg:p-4  overflow-auto  rounded-md lg:ml-3 w-full">
 			<Topbar />
 			<div>
 				<h1 className="text-2xl mt-8 font-semibold text-white">Good morning</h1>
@@ -76,7 +79,11 @@ const Content = () => {
 			</div>
 			{/* Playlist */}
 			<div className="text-white flex flex-col  gap-3 mt-8 text-2xl">
-				<div className="font-semibold">Playlist for Souhardya Deb</div>
+				<div className="font-semibold">
+					{user
+						? `Playlist for ${user?.firstName + " " + user?.lastName}`
+						: "Playlists on Spotify"}
+				</div>
 				<div className="max-w-screen-lg">
 					<Swiper
 						slidesPerView={3}
@@ -113,6 +120,14 @@ const Content = () => {
 							))}
 					</Swiper>
 				</div>
+			</div>
+
+			{/* Tracks */}
+			<div className="text-white flex flex-col  gap-3 mt-8 text-2xl">
+				<div className="font-semibold">Tracks on Spotify</div>
+				{allSongs && allSongs.map((info,index)=>(
+					<MySongCard key={index} mySongs={info} playSound={playSound}/>
+				))}
 			</div>
 		</div>
 	);

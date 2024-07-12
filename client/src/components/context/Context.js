@@ -10,6 +10,7 @@ import { Howl } from "howler";
 
 export const SpotifyContext = createContext();
 export const SpotifyProvider = ({ children }) => {
+	const [loading, setLoading] = useState(false);
 	const [token, setToken] = useState(localStorage.getItem("token"));
 	const [user, setUser] = useState(JSON.parse(localStorage.getItem("user")));
 	const apiUrl = process.env.REACT_APP_BACKEND_URL;
@@ -221,10 +222,8 @@ export const SpotifyProvider = ({ children }) => {
 	const getAllPlaylist = async () => {
 		const response = await fetch(`${apiUrl}/playlist/get-allplaylist`, {
 			method: "GET",
-			headers: {
-				Authorization: authorizationToken,
-			},
 		});
+
 		const data = await response.json();
 		setAllPlaylist(data.playlists);
 	};
@@ -232,17 +231,42 @@ export const SpotifyProvider = ({ children }) => {
 	//get single playlist
 	const [singlePlaylist, setSinglePlaylist] = useState([]);
 	const getSinglePlaylist = async (playlistId) => {
-		const response = await fetch(
-			`${apiUrl}/playlist/get-playlist/${playlistId}`,
-			{
-				method: "GET",
-				headers: {
-					Authorization: authorizationToken,
-				},
-			}
-		);
+		setLoading(true);
+		try {
+			const response = await fetch(
+				`${apiUrl}/playlist/get-playlist/${playlistId}`,
+				{
+					method: "GET",
+				}
+			);
+			const data = await response.json();
+			setSinglePlaylist(data.playlist);
+		} catch (error) {
+			console.error("Error fetching single playlist:", error);
+		}
+		setLoading(false);
+	};
+
+	//change next song
+	const [changenextsong, setchangenextsong] = useState(false);
+	const nextsong = () => {
+		setchangenextsong(true);
+	};
+	//change previous song
+	const [changeprevioussong, setchangeprevioussong] = useState(false);
+	const previoussong = () => {
+		setchangeprevioussong(true);
+	};
+
+	//get all songs
+	const [allSongs, setAllSongs] = useState([]);
+	const getAllSongs = async () => {
+		const response = await fetch(`${apiUrl}/song/get-songs`, {
+			method: "GET",
+		});
 		const data = await response.json();
-		setSinglePlaylist(data.playlist);
+		console.log(data);
+		setAllSongs(data.songs);
 	};
 
 	return (
@@ -270,6 +294,16 @@ export const SpotifyProvider = ({ children }) => {
 				allPlaylist,
 				getSinglePlaylist,
 				singlePlaylist,
+				nextsong,
+				changenextsong,
+				setchangenextsong,
+				previoussong,
+				changeprevioussong,
+				setchangeprevioussong,
+				loading,
+				setLoading,
+				getAllSongs,
+				allSongs
 			}}>
 			{children}
 		</SpotifyContext.Provider>

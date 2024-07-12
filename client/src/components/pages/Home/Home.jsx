@@ -1,17 +1,17 @@
-import React from 'react'
-import Sidebar from '../../common/Sidebar/Sidebar'
-import Bottombar from '../../common/Bottombar/Bottombar'
-import SongUI from '../../common/SongUi/SongUI'
-
+import React from "react";
+import Sidebar from "../../common/Sidebar/Sidebar";
+import Bottombar from "../../common/Bottombar/Bottombar";
+import SongUI from "../../common/SongUi/SongUI";
 
 const Home = () => {
-  return (
-    <>
-    <Sidebar/>
-    <SongUI/>
-    <Bottombar/>
-    </>
-  )
-}
+	return (
+		<div className="lg:p-2 lg:h-[99vh]   w-full">
+			<Sidebar />
+			<SongUI />
 
-export default Home
+			<Bottombar />
+		</div>
+	);
+};
+
+export default Home;

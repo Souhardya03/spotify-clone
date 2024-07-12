@@ -9,12 +9,10 @@ router.post(
 );
 router.get(
 	"/get-playlist/:playlistid",
-	authMiddleware.requireSignIn,
 	playlistCrontroller.getPlaylist
 );
 router.get(
 	"/get-allplaylist",
-	authMiddleware.requireSignIn,
 	playlistCrontroller.getAllPlaylists
 );
 router.get(

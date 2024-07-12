@@ -9,8 +9,8 @@ const Sidebar = () => {
 
 	return (
 		<>
-			<div className="flex flex-col lg:p-3 max-h-screen pb-0 w-full">
-				<div className="flex">
+			<div className="flex flex-col pb-0 w-full">
+				<div className="flex w-full">
 					{/* Sidebar */}
 					<div
 						className={`duration-150 lg:block hidden ${
