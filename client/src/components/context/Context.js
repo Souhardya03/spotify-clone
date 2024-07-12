@@ -84,6 +84,7 @@ export const SpotifyProvider = ({ children }) => {
 				function (error, result) {
 					if (!error && result.event === "success") {
 						resolve(result.info);
+						console.log(result.info);
 					} else if (error) {
 						reject(error);
 					}
@@ -192,6 +193,58 @@ export const SpotifyProvider = ({ children }) => {
 		setPlaylist(data.playlist);
 	};
 
+	// Add song to playlist
+	const addSongToPlaylist = async (playlistId) => {
+		try {
+			const response = await fetch(`${apiUrl}/playlist/add-song-to-playlist`, {
+				method: "POST",
+				headers: {
+					"Content-Type": "application/json",
+					Authorization: authorizationToken,
+				},
+				body: JSON.stringify({
+					songid: currentSong._id,
+					playlistid: playlistId,
+				}),
+			});
+			if (response.ok) {
+				alert("Songe added to playlist");
+			}
+		} catch (error) {
+			console.log(error);
+			console.log("Error from add song to playlist");
+		}
+	};
+
+	//get all playlist
+	const [allPlaylist, setAllPlaylist] = useState([]);
+	const getAllPlaylist = async () => {
+		const response = await fetch(`${apiUrl}/playlist/get-allplaylist`, {
+			method: "GET",
+			headers: {
+				Authorization: authorizationToken,
+			},
+		});
+		const data = await response.json();
+		setAllPlaylist(data.playlists);
+	};
+
+	//get single playlist
+	const [singlePlaylist, setSinglePlaylist] = useState([]);
+	const getSinglePlaylist = async (playlistId) => {
+		const response = await fetch(
+			`${apiUrl}/playlist/get-playlist/${playlistId}`,
+			{
+				method: "GET",
+				headers: {
+					Authorization: authorizationToken,
+				},
+			}
+		);
+		const data = await response.json();
+		setSinglePlaylist(data.playlist);
+	};
+
 	return (
 		<SpotifyContext.Provider
 			value={{
@@ -211,7 +264,12 @@ export const SpotifyProvider = ({ children }) => {
 				currentSong,
 				isPlaying,
 				playlist,
-				getyourPlaylist
+				getyourPlaylist,
+				addSongToPlaylist,
+				getAllPlaylist,
+				allPlaylist,
+				getSinglePlaylist,
+				singlePlaylist,
 			}}>
 			{children}
 		</SpotifyContext.Provider>

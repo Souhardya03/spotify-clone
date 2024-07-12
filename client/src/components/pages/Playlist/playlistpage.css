@@ -1,0 +1,5 @@
+.playlistimagebackground{
+    -webkit-box-shadow: -1px 0px 14px 0px rgba(232, 229, 232, 0.554);
+-moz-box-shadow: -1px 0px 14px 0px rgba(232, 229, 232, 0.554);
+box-shadow: -1px 0px 14px 0px rgba(232, 229, 232, 0.554);
+}

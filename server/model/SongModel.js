@@ -16,7 +16,11 @@ const Song = mongoose.Schema({
 	artist:{
         type: mongoose.Schema.ObjectId,
         ref: 'User'
-    }
+    },
+	duration:{
+		type: Number,
+		default:0
+	}
 });
 
 const SongModel = mongoose.model("Song",Song);

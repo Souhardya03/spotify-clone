@@ -29,8 +29,34 @@
       Learn how to configure a non-root public URL by running `npm run build`.
     -->
     <title>Spotify | Clone</title>
+    <style>
+      /* Applying to the whole document */
+      ::-webkit-scrollbar {
+          width: 12px;
+      }
+  
+      /* Track */
+      ::-webkit-scrollbar-track {
+          background: #181818; /* Dark background similar to Spotify */
+      }
+  
+      /* Handle */
+      ::-webkit-scrollbar-thumb {
+          background: #1db954; /* Spotify green */
+          border-radius: 10px;
+          border: 3px solid #181818; /* Padding around the thumb */
+      }
+  
+      /* Handle on hover */
+      ::-webkit-scrollbar-thumb:hover {
+          background: #1ed760; /* Lighter green on hover */
+      }
+  
+      /* Applying to specific div */
+      
+      </style>
   </head>
-  <body>
+  <body >
     <noscript>You need to enable JavaScript to run this app.</noscript>
     <div id="root"></div>
     <!--

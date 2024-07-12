@@ -22,7 +22,9 @@ const createPlaylist = async (req, res) => {
 //get all playlists
 const getAllPlaylists = async (req, res) => {
 	try {
-		const playlists = await PlaylistModel.find();
+		const playlists = await PlaylistModel.find()
+			.populate({ path: "owner", select: "-password" })
+			.populate({ path: "songs" });
 		res.status(200).json({ playlists });
 	} catch (error) {
 		console.log(error);
@@ -32,28 +34,42 @@ const getAllPlaylists = async (req, res) => {
 
 //get playlist by playlistid
 const getPlaylist = async (req, res) => {
-	try {
-		const { playlistid } = req.params;
-		const playlist = await PlaylistModel.findById(playlistid);
-		res.status(200).json({ playlist });
-	} catch (error) {
-		console.log(error);
-		console.log("Error from get playlist");
-	}
+    try {
+        const { playlistid } = req.params;
+        const playlist = await PlaylistModel.findById(playlistid)
+            .populate({
+                path: "owner",
+                select: "-password",
+            })
+            .populate({
+                path: "songs",
+                populate: {
+                    path: "artist",
+                },
+            });
+        res.status(200).json({ playlist });
+    } catch (error) {
+        console.log(error);
+        console.log("Error from get playlist");
+        res.status(500).json({ message: "Error retrieving playlist" });
+    }
 };
+
 
 //get playlist by owner id
 const getPlaylistByOwnerId = async (req, res) => {
 	try {
 		const OwnerId = req.user._id;
-		const playlist = await PlaylistModel.find({ owner: OwnerId }).populate({ path: "owner",select:"-password" });
+		const playlist = await PlaylistModel.find({ owner: OwnerId }).populate({
+			path: "owner",
+			select: "-password",
+		});
 		res.status(200).json({ playlist });
 	} catch (error) {
 		console.log(error);
 		console.log("Error from get playlist by owner id");
 	}
 };
-
 
 //add song to playlist
 const addSongToPlaylist = async (req, res) => {

@@ -18,11 +18,12 @@ const MySongCard = ({ mySongs, playSound }) => {
             onClick={handleClick}
         >
             <div
-                className="lg:w-[8%] w-1/4 rounded-l-md h-full"
+                className="lg:w-[18%] w-1/4 rounded-l-md h-full"
                 style={{
                     backgroundImage: `url(${mySongs?.thumbnail})`,
-                    backgroundPosition: "center",
+                    backgroundPosition: "left",
                     backgroundSize: "cover",
+                    backgroundRepeat: "no-repeat"
                 }}
             >
                 <div
@@ -38,12 +39,14 @@ const MySongCard = ({ mySongs, playSound }) => {
                 </div>
             </div>
             <div className="text-white text-sm h-full flex flex-col justify-center w-full">
-                <div className="pt-1">{mySongs?.name}</div>
-                <div className="space-x-1">
+                <div className="pt-1 text-lg">{mySongs?.name}</div>
+                <div className="space-x-1 text-sm">
                     <span>{mySongs?.artist?.firstName}</span>
                     <span>{mySongs?.artist?.lastName}</span>
                 </div>
             </div>
+            <div className="text-gray-400 w-full text-right text-sm pr-4">{mySongs?.duration + " min"}</div>
+
         </div>
     );
 };

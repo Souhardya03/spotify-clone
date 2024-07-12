@@ -6,20 +6,27 @@ const UploadSongModal = (props) => {
 	const { uploadSongWidget, uploadSong } = useSpotify();
 	const [displayname, setDisplayname] = useState();
 	const [trackUrl, setTrackUrl] = useState();
+	const [duration, setDuration] = useState();
 	const [songData, setsongData] = useState({
 		name: "",
 		thumbnail: "",
 		track: "",
+		duration: 0
 	});
 
+	const convertDurationToMinutes = (seconds) => {
+		return (seconds / 60).toFixed(2); // converting seconds to minutes and fixing to 2 decimal places
+	};
+
 	useEffect(() => {
-		if (trackUrl) {
+		if (trackUrl && duration) {
 			setsongData((prevData) => ({
 				...prevData,
 				track: trackUrl,
+				duration: convertDurationToMinutes(duration)
 			}));
 		}
-	}, [trackUrl]);
+	}, [trackUrl, duration]);
 
 	const CloudinaryUpload = async () => {
 		try {
@@ -27,6 +34,7 @@ const UploadSongModal = (props) => {
 			if (result) {
 				setDisplayname(result.display_name);
 				setTrackUrl(result.secure_url);
+				setDuration(result.duration);
 			}
 		} catch (error) {
 			console.error("Upload failed", error);
@@ -38,18 +46,19 @@ const UploadSongModal = (props) => {
 	};
 
 	const handleSubmit = () => {
+		
 		uploadSong(songData);
 	};
 
 	return (
 		<div
-			className={`bg-[#0000009b] fixed items-center left-0 top-0 flex p-4 justify-center w-screen h-screen transition-opacity duration-200 ${
+			className={`bg-[#0000009b] fixed z-[9999] items-center left-0 top-0 flex p-4 justify-center w-screen h-screen transition-opacity duration-200 ${
 				props.show ? "opacity-100" : "opacity-0 pointer-events-none"
 			}`}
 			onClick={() => props.setShow(false)}>
 			<div
 				onClick={(e) => e.stopPropagation()}
-				className="rounded-md lg:space-y-3 gap-4 flex lg:p-10 p-8 flex-col items-center lg:w-[30%]  bg-[#272626cd]">
+				className="rounded-md lg:space-y-3 gap-4 flex lg:p-10 p-8 flex-col items-center lg:w-[30%]  bg-[#242424]">
 				<div className="w-full space-y-1">
 					<div className="w-full gap-3 lg:mb-8 mb-6 text-white flex-col flex items-center justify-center">
 						<img
@@ -71,7 +80,7 @@ const UploadSongModal = (props) => {
 							onChange={handleChange}
 							name="name"
 							type="text"
-							className="bg-transparent pl-4 p-3 text-white px-3 text-lg placeholder:text-sm w-full outline-none focus:outline-none"
+							className="bg-transparent text-sm pl-4 p-3 rounded-full text-white px-3 placeholder:text-sm w-full outline-none focus:outline-none"
 							placeholder="Name of the song"
 						/>
 					</div>
@@ -89,7 +98,7 @@ const UploadSongModal = (props) => {
 							value={songData.thumbnail}
 							onChange={handleChange}
 							type="text"
-							className="bg-transparent pl-4 p-3 text-white px-3 text-lg placeholder:text-sm w-full outline-none focus:outline-none"
+							className="bg-transparent pl-4 p-3 rounded-full text-white px-3 text-sm placeholder:text-sm w-full outline-none focus:outline-none"
 							placeholder="Thumbnail of the song"
 						/>
 					</div>
@@ -104,8 +113,8 @@ const UploadSongModal = (props) => {
 							className="relative border p-3 mt-1 rounded-full flex justify-end  items-center border-white w-full"
 							onMouseEnter={() => setshowhover(true)}
 							onMouseLeave={() => setshowhover(false)}>
-							<div className="text-gray-500 ml-2 w-full">
-								{displayname ? displayname : "Click here to upload"}
+							<div className="text-gray-500 text-sm ml-2 w-full">
+								{displayname ? displayname.substring(0,25)+"..." : "Click here to upload"}
 							</div>
 							<img
 								src="./assets/upload-icon.png"

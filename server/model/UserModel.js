@@ -21,14 +21,14 @@ const User = mongoose.Schema({
 		type: String,
 		required: true,
 	},
-	likedSongs: {
+	likedSongs: [{
+		type: mongoose.Schema.ObjectId,
+        ref: 'Song',
+	}],
+	likedPlaylist: [{
 		type: String,
 		default: "",
-	},
-	likedPlaylist: {
-		type: String,
-		default: "",
-	},
+	}],
 	subscribedArtists: {
 		type: String,
 		default: "",

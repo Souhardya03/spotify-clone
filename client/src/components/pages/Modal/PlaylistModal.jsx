@@ -22,13 +22,13 @@ const PlaylistModal = (props) => {
 
 	return (
 		<div
-			className={`bg-[#0000009b] fixed items-center left-0 top-0 flex p-4 justify-center w-screen h-screen transition-opacity duration-200 ${
+			className={`bg-[#0000009b] z-[999] fixed items-center left-0 top-0 flex p-4 justify-center w-screen h-screen transition-opacity duration-200 ${
 				props.show ? "opacity-100" : "opacity-0 pointer-events-none"
 			}`}
 			onClick={() => props.setShow(false)}>
 			<div
 				onClick={(e) => e.stopPropagation()}
-				className="rounded-md lg:space-y-3 gap-4 flex lg:p-10 p-8 flex-col items-center lg:w-[30%]  bg-[#272626cd]">
+				className="rounded-md lg:space-y-3 gap-4 flex lg:p-10 p-8 flex-col items-center lg:w-[30%]  bg-[#272626e7]">
 				<div className="w-full space-y-1">
 					<div className="w-full gap-3 lg:mb-8 mb-6 text-white flex-col flex items-center justify-center">
 						<img
@@ -50,7 +50,7 @@ const PlaylistModal = (props) => {
 							onChange={handleChange}
 							name="name"
 							type="text"
-							className="bg-transparent pl-4 p-3 text-white px-3 text-lg placeholder:text-sm w-full outline-none focus:outline-none"
+							className="bg-transparent pl-4 p-3 text-white px-3 text-sm placeholder:text-sm w-full outline-none focus:outline-none"
 							placeholder="Name of the playlist"
 						/>
 					</div>
@@ -68,7 +68,7 @@ const PlaylistModal = (props) => {
 							value={playlistData.thumbnail}
 							onChange={handleChange}
 							type="text"
-							className="bg-transparent pl-4 p-3 text-white px-3 text-lg placeholder:text-sm w-full outline-none focus:outline-none"
+							className="bg-transparent pl-4 p-3 text-white px-3 text-sm placeholder:text-sm w-full outline-none focus:outline-none"
 							placeholder="Thumbnail of the playlist"
 						/>
 					</div>

@@ -3,9 +3,9 @@ const SongModel = require("../model/SongModel");
 //Create Song
 const createSong = async (req, res) => {
 	try {
-		const { name, thumbnail, track } = req.body;
+		const { name, thumbnail, track, duration } = req.body;
 		const artist = req.user._id;
-		const song = await SongModel.create({ name, thumbnail, track, artist });
+		const song = await SongModel.create({ name, thumbnail, track, artist, duration });
 		res.status(200).json({ song });
 	} catch (error) {
 		console.log(error);
