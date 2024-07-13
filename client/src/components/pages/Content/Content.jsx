@@ -22,7 +22,7 @@ const Content = () => {
 	}, []);
 
 	return (
-		<div className="contentbackground lg:h-[90vh] h-[82vh]  p-2 lg:p-4  overflow-auto  rounded-md lg:ml-3 w-full">
+		<div className="contentbackground lg:h-[86vh] h-[82vh]  p-2 lg:p-4  overflow-auto  rounded-md lg:ml-3 w-full">
 			<Topbar />
 			<div>
 				<h1 className="text-2xl mt-8 font-semibold text-white">Good morning</h1>

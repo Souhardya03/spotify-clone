@@ -1,29 +1,80 @@
-import React, { useState } from "react";
+/* eslint-disable react-hooks/exhaustive-deps */
+import React, { useState, useEffect, useRef } from "react";
 import { useSpotify } from "../../context/Context";
 import AddToPlaylistModal from "../../pages/Modal/AddToPlaylistModal";
+import "./SongUI.css"; // Import the CSS file
 
 const SongUI = () => {
 	const {
 		currentSong,
+		currentTime,
+		duration,
+		setCurrentTime,
 		togglePlayPause,
 		isPlaying,
-		getyourPlaylist,
+		soundPlayed,
 		nextsong,
 		previoussong,
+		getyourPlaylist,
 	} = useSpotify();
+
 	const [show, setShow] = useState(false);
+	const seekbarRef = useRef(null);
+
+	useEffect(() => {
+		let animationFrameId;
+
+		const updateCurrentTime = () => {
+			if (soundPlayed && soundPlayed.playing()) {
+				setCurrentTime(soundPlayed.seek());
+				animationFrameId = requestAnimationFrame(updateCurrentTime);
+			}
+		};
+
+		if (soundPlayed) {
+			updateCurrentTime();
+		}
+
+		return () => cancelAnimationFrame(animationFrameId);
+	}, [soundPlayed, setCurrentTime]);
+
+	const handleSeek = (event) => {
+		const seekTime = (event.target.value / 100) * duration;
+		setCurrentTime(seekTime);
+		if (soundPlayed) {
+			soundPlayed.seek(seekTime);
+		}
+	};
 
 	const handleClick = () => {
 		setShow(true);
 		getyourPlaylist();
 	};
 
+	const formatTime = (time) => {
+		const minutes = Math.floor(time / 60);
+		const seconds = Math.floor(time % 60);
+		return `${minutes}:${seconds < 10 ? "0" : ""}${seconds}`;
+	};
+
+	const seekbarBackground = {
+		background: `linear-gradient(to right, #4caf50 ${
+			(currentTime / duration) * 100
+		}%, #383737 ${(currentTime / duration) * 100}%)`,
+	};
+
+	useEffect(() => {
+		if (seekbarRef.current) {
+			seekbarRef.current.style.background = seekbarBackground.background;
+		}
+	}, [currentTime, duration, seekbarBackground]);
+
 	return (
-		<div className="text-white  rounded-b-lg z-[999] h-[8vh]   p-1  w-full  flex justify-between items-center bg-[#202020]">
-			<div className="flex lg:pl-4 items-center gap-2 justify-start lg:w-[25%] h-full">
+		<div className="text-white  rounded-b-lg z-[999] lg:p-2 py-3  w-full  flex justify-between items-center bg-[#202020]">
+			<div className="flex lg:pl-4 items-center gap-2 justify-start w-[90%] lg:w-[25%] h-full">
 				{currentSong ? (
 					<>
-						<div className="h-full w-[18%] bg-[#0f0f0f77]  rounded-md">
+						<div className="h-full w-1/2 lg:w-[40%] bg-[#0f0f0f77]  rounded-md">
 							<img
 								src={currentSong?.thumbnail}
 								className="w-full h-full rounded-md object-cover"
@@ -31,7 +82,7 @@ const SongUI = () => {
 							/>
 						</div>
 
-						<div className="w-full text-xs">
+						<div className="w-full text-sm">
 							<div>{currentSong?.name}</div>
 							<div className="text-[#a3a3a3]">
 								{currentSong?.artist?.firstName +
@@ -46,45 +97,65 @@ const SongUI = () => {
 					</div>
 				)}
 			</div>
-			<div className="lg:w-1/2 gap-4 pr-4 lg:pr-0 lg:gap-8 flex items-center justify-center h-full">
-				<img
-					src="/assets/add_to_playlist.svg"
-					className="w-4 lg:hidden block"
-					alt=""
-				/>
-				<button onClick={previoussong}>
+			<div className="w-full  lg:pr-0 flex-col flex items-center lg:justify-center justify-between h-full">
+				<div className="lg:w-[50%]  gap-4 lg:gap-6 flex  items-center justify-center">
 					<img
-						src="/assets/previous.svg"
-						className="w-4 cursor-pointer"
+						src="/assets/add_to_playlist.svg"
+						className="w-4 lg:hidden block"
 						alt=""
 					/>
-				</button>
-				<button
-					onClick={togglePlayPause}
-					disabled={!currentSong}>
+					<button onClick={previoussong}>
+						<img
+							src="/assets/previous.svg"
+							className="w-4 cursor-pointer"
+							alt=""
+						/>
+					</button>
+					<button
+						onClick={togglePlayPause}
+						disabled={!currentSong}>
+						<img
+							src={
+								currentSong && isPlaying
+									? "/assets/pause.svg"
+									: "/assets/play.png"
+							}
+							className="w-10"
+							alt=""
+						/>
+					</button>
+					<button onClick={nextsong}>
+						<img
+							src="/assets/next.svg"
+							className="w-4 cursor-pointer"
+							alt="Next"
+						/>
+					</button>
 					<img
-						src={
-							currentSong && !isPlaying
-								? "/assets/pause.svg"
-								: "/assets/play.png"
-						}
-						className="w-10"
+						src="/assets/Like.svg"
+						className="w-4 lg:hidden block"
 						alt=""
 					/>
-				</button>
-				<button onClick={nextsong}>
-					<img
-						src="/assets/next.svg"
-						className="w-4 cursor-pointer"
-						alt="Next"
-					/>
-				</button>
-				<img
-					src="/assets/Like.svg"
-					className="w-4 lg:hidden block"
-					alt=""
-				/>
+				</div>
+				<div className="seek-bar-section lg:w-[80%] mr-3 w-full">
+					<div className="seek-bar-container">
+						<span className="text-right lg:w-[15%]">
+							{formatTime(currentTime)}
+						</span>
+						<input
+							ref={seekbarRef}
+							type="range"
+							min={`${currentSong ? "0" : "100"}`}
+							max="100"
+							value={(currentTime / duration) * 100}
+							onInput={handleSeek}
+							className="seek-bar"
+						/>
+						<span className="lg:w-[15%]">{formatTime(duration)}</span>
+					</div>
+				</div>
 			</div>
+
 			<div className="w-[25%] hidden lg:flex gap-6 justify-end pr-4 h-full">
 				<button
 					onClick={handleClick}

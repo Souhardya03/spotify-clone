@@ -1,0 +1,155 @@
+.song-ui {
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	background-color: #202020;
+	color: white;
+	width: 100%;
+	height: 8vh;
+	padding: 1rem;
+	border-radius: 0 0 10px 10px;
+	z-index: 999;
+}
+
+.song-info {
+	display: flex;
+	align-items: center;
+	justify-content: start;
+	gap: 0.5rem;
+	width: 25%;
+	height: 100%;
+	padding-left: 1rem;
+}
+
+.song-thumbnail {
+	width: 18%;
+	height: 100%;
+	background-color: rgba(15, 15, 15, 0.47);
+	border-radius: 5px;
+}
+
+.thumbnail-image {
+	width: 100%;
+	height: 100%;
+	object-fit: cover;
+	border-radius: 5px;
+}
+
+.song-details {
+	width: 100%;
+	font-size: 0.75rem;
+}
+
+.artist-name {
+	color: #a3a3a3;
+}
+
+.select-song-message {
+	width: 100%;
+	padding-left: 1rem;
+	font-size: 0.875rem;
+}
+
+.controls-section {
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	gap: 1rem;
+	width: 50%;
+	height: 100%;
+	padding-right: 1rem;
+}
+
+.control-icon {
+	width: 1rem;
+}
+
+.control-button {
+	background: none;
+	border: none;
+	cursor: pointer;
+}
+
+.play-pause-icon {
+	width: 2.5rem;
+}
+
+.mobile-only {
+	display: none;
+}
+
+@media (max-width: 1024px) {
+	.mobile-only {
+		display: block;
+	}
+	.seek-bar-section {
+		
+		display: flex;
+		flex-direction: column;
+		align-items: center;
+	}
+}
+
+.seek-bar-section {
+	
+	display: flex;
+	flex-direction: column;
+	align-items: center;
+}
+
+.seek-bar-container {
+	display: flex;
+	align-items: center;
+	gap: 0.5rem;
+	width: 100%;
+}
+
+.seek-bar {
+	width: 100%;
+	-webkit-appearance: none;
+	background: #323131;
+	height: 5px;
+	border-radius: 5px;
+	outline: none;
+	transition: all 0.3s ease;
+}
+
+.seek-bar::-webkit-slider-thumb {
+	-webkit-appearance: none;
+	width: 10px;
+	height: 10px;
+	background: #4caf50;
+	border-radius: 50%;
+	cursor: pointer;
+	transition: all 0.3s ease;
+}
+
+/* .seek-bar::-moz-range-thumb {
+	width: 15px;
+	height: 15px;
+	background: #4caf50;
+	border-radius: 50%;
+	cursor: pointer;
+	transition: all 0.3s ease;
+} */
+
+
+.playlist-section {
+	display: flex;
+	align-items: center;
+	justify-content: end;
+	gap: 1.5rem;
+	width: 25%;
+	height: 100%;
+	padding-right: 1rem;
+}
+
+.playlist-button {
+	background: none;
+	border: none;
+	cursor: pointer;
+}
+
+.playlist-icon {
+	width: 1.5rem;
+}

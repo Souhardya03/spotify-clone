@@ -1,3 +1,4 @@
+/* eslint-disable react-hooks/exhaustive-deps */
 import {
 	createContext,
 	useContext,
@@ -14,7 +15,13 @@ export const SpotifyProvider = ({ children }) => {
 	const [token, setToken] = useState(localStorage.getItem("token"));
 	const [user, setUser] = useState(JSON.parse(localStorage.getItem("user")));
 	const apiUrl = process.env.REACT_APP_BACKEND_URL;
-	//Register user
+	const [soundPlayed, setSoundPlayed] = useState(null);
+	const [isPlaying, setisPlaying] = useState(false);
+	const [currentSong, setCurrentSong] = useState(null);
+	const [currentTime, setCurrentTime] = useState(0);
+	const [duration, setDuration] = useState(0);
+
+	// Register user
 	const registerUser = async (signupdata) => {
 		try {
 			const response = await fetch(`${apiUrl}/auth/register`, {
@@ -36,10 +43,11 @@ export const SpotifyProvider = ({ children }) => {
 			}
 		} catch (error) {
 			console.log(error);
-			console.log("Error fron register user context");
+			console.log("Error from register user context");
 		}
 	};
-	//Login user
+
+	// Login user
 	const loginUser = async (loginData) => {
 		try {
 			const response = await fetch(`${apiUrl}/auth/login`, {
@@ -64,7 +72,8 @@ export const SpotifyProvider = ({ children }) => {
 			console.log("Error from login user context");
 		}
 	};
-	//Logout user
+
+	// Logout user
 	const logoutUser = () => {
 		localStorage.removeItem("token");
 		localStorage.removeItem("user");
@@ -73,7 +82,8 @@ export const SpotifyProvider = ({ children }) => {
 
 	const isLoggedIn = !!token;
 	const authorizationToken = token;
-	//Song Upload to cloudinary
+
+	// Song Upload to cloudinary
 	const uploadSongWidget = () => {
 		return new Promise((resolve, reject) => {
 			let myUploadWidget = openUploadWidget(
@@ -95,7 +105,7 @@ export const SpotifyProvider = ({ children }) => {
 		});
 	};
 
-	//Song Upload
+	// Song Upload
 	const uploadSong = async (song) => {
 		try {
 			const response = await fetch(`${apiUrl}/song/create-song`, {
@@ -117,7 +127,7 @@ export const SpotifyProvider = ({ children }) => {
 		}
 	};
 
-	//create playlist
+	// Create playlist
 	const createPlaylist = async (playlist) => {
 		try {
 			const response = await fetch(`${apiUrl}/playlist/create-playlist`, {
@@ -139,8 +149,7 @@ export const SpotifyProvider = ({ children }) => {
 		}
 	};
 
-	//play and pause sonng
-	const [soundPlayed, setSoundPlayed] = useState(null);
+	// Play and pause song
 	const playSound = (songsrc) => {
 		if (soundPlayed) {
 			soundPlayed.stop();
@@ -150,26 +159,39 @@ export const SpotifyProvider = ({ children }) => {
 			src: [songsrc],
 			html5: true,
 			onend: () => setSoundPlayed(null), // Clear the state when the sound ends
+			onplay: () => setDuration(sound.duration()),
+			onseek: () => setCurrentTime(sound.seek()),
 		});
 		setSoundPlayed(sound);
 		sound.play();
-		setisPlaying(false);
+		setisPlaying(true);
 	};
-	// toggle play pause
-	const [isPlaying, setisPlaying] = useState(false);
+
+	// Toggle play pause
 	const togglePlayPause = () => {
 		if (isPlaying) {
-			soundPlayed.play();
+			soundPlayed.pause();
 			setisPlaying(false);
 		} else {
-			soundPlayed.pause();
+			soundPlayed.play();
 			setisPlaying(true);
 		}
 	};
 
-	// Current Song
-	const [currentSong, setCurrentSong] = useState(null);
+	// Update currentTime as the song plays
+	const updateCurrentTime = () => {
+		if (soundPlayed) {
+			setCurrentTime(soundPlayed.seek());
+		}
+	};
 
+	// Set interval to update currentTime
+	useLayoutEffect(() => {
+		const interval = setInterval(updateCurrentTime, 1000);
+		return () => clearInterval(interval);
+	}, [soundPlayed]);
+
+	// Current Song
 	const firstUpdate = useRef(true);
 	useLayoutEffect(() => {
 		if (firstUpdate.current) {
@@ -181,7 +203,7 @@ export const SpotifyProvider = ({ children }) => {
 		// eslint-disable-next-line react-hooks/exhaustive-deps
 	}, [currentSong && currentSong.track]);
 
-	//get Playlist
+	// Get Playlist
 	const [playlist, setPlaylist] = useState([]);
 	const getyourPlaylist = async () => {
 		const response = await fetch(`${apiUrl}/playlist/get-ownerplaylist`, {
@@ -209,7 +231,7 @@ export const SpotifyProvider = ({ children }) => {
 				}),
 			});
 			if (response.ok) {
-				alert("Songe added to playlist");
+				alert("Song added to playlist");
 			}
 		} catch (error) {
 			console.log(error);
@@ -217,18 +239,17 @@ export const SpotifyProvider = ({ children }) => {
 		}
 	};
 
-	//get all playlist
+	// Get all playlist
 	const [allPlaylist, setAllPlaylist] = useState([]);
 	const getAllPlaylist = async () => {
 		const response = await fetch(`${apiUrl}/playlist/get-allplaylist`, {
 			method: "GET",
 		});
-
 		const data = await response.json();
 		setAllPlaylist(data.playlists);
 	};
 
-	//get single playlist
+	// Get single playlist
 	const [singlePlaylist, setSinglePlaylist] = useState([]);
 	const getSinglePlaylist = async (playlistId) => {
 		setLoading(true);
@@ -247,25 +268,25 @@ export const SpotifyProvider = ({ children }) => {
 		setLoading(false);
 	};
 
-	//change next song
+	// Change next song
 	const [changenextsong, setchangenextsong] = useState(false);
 	const nextsong = () => {
 		setchangenextsong(true);
 	};
-	//change previous song
+
+	// Change previous song
 	const [changeprevioussong, setchangeprevioussong] = useState(false);
 	const previoussong = () => {
 		setchangeprevioussong(true);
 	};
 
-	//get all songs
+	// Get all songs
 	const [allSongs, setAllSongs] = useState([]);
 	const getAllSongs = async () => {
 		const response = await fetch(`${apiUrl}/song/get-songs`, {
 			method: "GET",
 		});
 		const data = await response.json();
-		console.log(data);
 		setAllSongs(data.songs);
 	};
 
@@ -303,8 +324,13 @@ export const SpotifyProvider = ({ children }) => {
 				loading,
 				setLoading,
 				getAllSongs,
-				allSongs
-			}}>
+				allSongs,
+				soundPlayed,
+				currentTime,
+				duration,
+				setCurrentTime,
+			}}
+		>
 			{children}
 		</SpotifyContext.Provider>
 	);

@@ -8,7 +8,7 @@ const Search = () => {
 	}, []);
 	const [show, setShow] = useState(false);
 	return (
-		<div className="contentbackground p-2 lg:p-4 h-[90vh] rounded-md lg:ml-3 w-full relative">
+		<div className="contentbackground p-2 lg:p-4 h-[86vh] rounded-md lg:ml-3 w-full relative">
 			<SearchTopbar show={setShow} />
 			<div className="border rounded-full mt-4 flex lg:hidden items-center border-white w-full">
 				<div className="pl-3">

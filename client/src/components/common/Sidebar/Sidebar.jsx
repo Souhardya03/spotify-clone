@@ -50,7 +50,7 @@ const Sidebar = () => {
 								</div>
 							</div>
 						</div>
-						<div className="h-[60vh] p-5 text-gray-400 rounded-md bg-[#121212]">
+						<div className="h-[56vh] p-5 text-gray-400 rounded-md bg-[#121212]">
 							<div
 								className="flex justify-end cursor-pointer"
 								onClick={() => setcontrol(!control)}>
