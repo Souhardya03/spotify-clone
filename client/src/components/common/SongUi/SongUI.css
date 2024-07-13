@@ -83,7 +83,6 @@
 		display: block;
 	}
 	.seek-bar-section {
-		
 		display: flex;
 		flex-direction: column;
 		align-items: center;
@@ -91,7 +90,6 @@
 }
 
 .seek-bar-section {
-	
 	display: flex;
 	flex-direction: column;
 	align-items: center;
@@ -113,6 +111,24 @@
 	outline: none;
 	transition: all 0.3s ease;
 }
+.volume-bar {
+	width: 80%;
+	-webkit-appearance: none;
+	background: #323131;
+	height: 5px;
+	border-radius: 5px;
+	outline: none;
+	transition: all 0.3s ease;
+}
+.volume-bar::-webkit-slider-thumb {
+	-webkit-appearance: none;
+	width: 10px;
+	height: 10px;
+	background: #4caf50;
+	border-radius: 50%;
+	cursor: pointer;
+	transition: all 0.3s ease;
+}
 
 .seek-bar::-webkit-slider-thumb {
 	-webkit-appearance: none;
@@ -132,7 +148,6 @@
 	cursor: pointer;
 	transition: all 0.3s ease;
 } */
-
 
 .playlist-section {
 	display: flex;

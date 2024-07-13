@@ -19,7 +19,9 @@ const SongUI = () => {
 	} = useSpotify();
 
 	const [show, setShow] = useState(false);
+	const [volume, setVolume] = useState(100); // Add volume state
 	const seekbarRef = useRef(null);
+	const volumeRef = useRef(null); // Ref for volume seekbar
 
 	useEffect(() => {
 		let animationFrameId;
@@ -46,6 +48,14 @@ const SongUI = () => {
 		}
 	};
 
+	const handleVolumeChange = (event) => {
+		const newVolume = event.target.value;
+		setVolume(newVolume);
+		if (soundPlayed) {
+			soundPlayed.volume(newVolume / 100);
+		}
+	};
+
 	const handleClick = () => {
 		setShow(true);
 		getyourPlaylist();
@@ -68,6 +78,17 @@ const SongUI = () => {
 			seekbarRef.current.style.background = seekbarBackground.background;
 		}
 	}, [currentTime, duration, seekbarBackground]);
+	const volumeBackground = {
+		background: `linear-gradient(to right, #4caf50 ${
+			volume
+		}%, #383737 ${volume}%)`,
+	};
+
+	useEffect(() => {
+		if (volumeRef.current) {
+			volumeRef.current.style.background = volumeBackground.background;
+		}
+	}, [volume, volumeBackground]);
 
 	return (
 		<div className="text-white  rounded-b-lg z-[999] lg:p-2 py-3  w-full  flex justify-between items-center bg-[#202020]">
@@ -97,13 +118,17 @@ const SongUI = () => {
 					</div>
 				)}
 			</div>
-			<div className="w-full  lg:pr-0 flex-col flex items-center lg:justify-center justify-between h-full">
-				<div className="lg:w-[50%]  gap-4 lg:gap-6 flex  items-center justify-center">
-					<img
-						src="/assets/add_to_playlist.svg"
-						className="w-4 lg:hidden block"
-						alt=""
-					/>
+			<div className="w-full lg:pr-0 flex-col flex items-center lg:justify-center justify-between h-full">
+				<div className="lg:w-[50%] gap-4 lg:gap-6 flex items-center justify-center">
+					<button
+						onClick={handleClick}
+						disabled={!currentSong}>
+						<img
+							src="/assets/add_to_playlist.svg"
+							className="w-4"
+							alt=""
+						/>
+					</button>
 					<button onClick={previoussong}>
 						<img
 							src="/assets/previous.svg"
@@ -133,7 +158,7 @@ const SongUI = () => {
 					</button>
 					<img
 						src="/assets/Like.svg"
-						className="w-4 lg:hidden block"
+						className="w-4"
 						alt=""
 					/>
 				</div>
@@ -155,22 +180,21 @@ const SongUI = () => {
 					</div>
 				</div>
 			</div>
-
 			<div className="w-[25%] hidden lg:flex gap-6 justify-end pr-4 h-full">
-				<button
-					onClick={handleClick}
-					disabled={!currentSong}>
-					<img
-						src="/assets/add_to_playlist.svg"
-						className="w-6"
-						alt=""
-					/>
-				</button>
-				<img
-					src="/assets/Like.svg"
-					className="w-6"
-					alt=""
-				/>
+				<div className="volume-section lg:w-[80%] mr-3 w-full mt-2">
+					<div className="volume-container flex items-center gap-2">
+						<img src="/assets/volume.svg" alt="" />
+						<input
+							ref={volumeRef}
+							type="range"
+							min="0"
+							max="100"
+							value={volume}
+							onInput={handleVolumeChange}
+							className="volume-bar"
+						/>
+					</div>
+				</div>
 			</div>
 			<AddToPlaylistModal
 				show={show}
